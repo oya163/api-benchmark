@@ -1,10 +1,14 @@
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, HTTPException
+from flask import send_file, Response
 from io import BytesIO
 import base64
 from urllib.request import urlopen
 from PIL import Image
 import flask
+import requests
+from requests_toolbelt import MultipartEncoder
 
+# Write try catch
 
 class ProcessImageEndpoint(Resource):
     def __init__(self):
@@ -27,20 +31,39 @@ class ProcessImageEndpoint(Resource):
     def transform_image(self, image_file):
         return Image.open(urlopen(image_file)).convert('1')
 
+    # def post(self):
+    #     image_url = self.req_parser.parse_args(strict=True).get("image_url", None)
+    #     if image_url:
+    #         encoded_img = Image.open(urlopen(image_url)).convert('1')
+    #         buffered = BytesIO()
+    #         encoded_img.save(buffered, format="JPEG")
+    #         encoded_img = base64.b64encode(buffered.getvalue()).decode('ascii')
+    #         return flask.jsonify({
+    #             'filename': 'bw.jpeg',
+    #             'encoded_img': buffered.getvalue()
+    #         })
+    #     else:
+    #         return "Error: Please send an image", 500
+
     def post(self):
         image_url = self.req_parser.parse_args(strict=True).get("image_url", None)
         if image_url:
-            encoded_img = Image.open(urlopen(image_url)).convert('1')
+            # image_url = urlopen(image_url)
+            # encoded_img = Image.open(urlopen(image_url)).convert('1')
+            resp = requests.get(image_url)
+            encoded_img = Image.open(BytesIO(resp.content)).convert('1')
             buffered = BytesIO()
             encoded_img.save(buffered, format="JPEG")
-            encoded_img = base64.b64encode(buffered.getvalue()).decode('ascii')
-            return flask.jsonify({
-                'filename': 'bw.jpeg',
-                'encoded_img': encoded_img}
-            )
-            # return send_file(encoded_img,
-            #                  attachment_filename='blackandwhite.jpeg',
-            #                  mimetype='image/jpeg')
+            buffered.seek(0)
+            return send_file(buffered,
+                             attachment_filename='bw.jpeg',
+                             as_attachment=True,
+                             mimetype='image/jpeg')
+            # m = MultipartEncoder(
+            #     fields={'filename': 'bw.jpeg',
+            #             'encoded_img': buffered}
+            # )
+            # return Response(m.to_string(), mimetype=m.content_type)
         else:
             return "Error: Please send an image", 500
 
