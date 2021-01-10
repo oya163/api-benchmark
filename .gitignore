@@ -1,0 +1,10 @@
+librax_notes
+*/archive/
+*.jpeg
+*/*.jpeg
+*/*.png
+flaskAPI/README.md
+.idea
+__pycache__/
+*.py[cod]
+*.DS_Store

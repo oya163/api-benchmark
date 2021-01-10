@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="'title">
+        <h2 class="title">Convert an image</h2>
+    </div>
+
+    <div class="collection">
+        {% for item in image_url %}
+            <div class="image">
+                <img src="{{ item }}" alt="{{sample}}">
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
