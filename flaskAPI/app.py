@@ -1,10 +1,10 @@
-from flask import Flask, request, render_template
+from flask import Flask, render_template
 from flask_restful import Api
 from urllib.request import urlopen
 from PIL import Image
 import numpy as np
 import cv2
-from resources.processimage import ProcessImageEndpoint
+from resources.processimage import Base64Endpoint, MultiPartEndpoint, ImageUrlEndpoint
 import logging
 
 
@@ -12,12 +12,15 @@ app = Flask(__name__)
 # app.config["DEBUG"] = True
 api = Api(app)
 
-api.add_resource(ProcessImageEndpoint, '/magic')
+api.add_resource(ImageUrlEndpoint, '/magic/imageurl')
+api.add_resource(Base64Endpoint, '/magic/base64')
+api.add_resource(MultiPartEndpoint, '/magic/multipart')
 
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
+### Uncomment to run wrk benchmark
+# log = logging.getLogger('werkzeug')
+# log.setLevel(logging.ERROR)
 
-# Just to test visually
+# Just to confirm visually
 @app.route('/', methods=['GET'])
 def home():
     image_url = 'https://images.dog.ceo/breeds/leonberg/n02111129_2088.jpg'

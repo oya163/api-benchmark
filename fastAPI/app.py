@@ -1,12 +1,15 @@
-from io import BytesIO
+from io import BytesIO, StringIO
 import base64
 from urllib.request import urlopen
 from urllib.error import HTTPError
 from pydantic import BaseModel
 from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 import uvicorn
 from PIL import Image
+from fastapi import FastAPI, File, UploadFile, Body
+import logging
+import json
 
 
 class ImageModel(BaseModel):
@@ -20,6 +23,15 @@ class OtherException(Exception):
 
 
 app = FastAPI()
+
+logger = logging.getLogger("api")
+logger.setLevel(logging.DEBUG)
+
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
 
 
 @app.exception_handler(OtherException)
@@ -35,7 +47,7 @@ def index():
     return {"Hello": "LibraX"}
 
 
-@app.get("/magic/")
+@app.get("/magic/imageurl")
 def get():
     image_url = "https://i.ibb.co/ZYW3VTp/brown-brim.png"
     encoded_img = Image.open(urlopen(image_url)).convert('1')
@@ -47,9 +59,9 @@ def get():
         'encoded_img': encoded_img
     }
 
-
-@app.post("/magic/")
-def magic(image: ImageModel):
+# Image URL + base64 encoding
+@app.post("/magic/imageurl")
+def magic_url(image: ImageModel):
     image_url = image.image_url
     if image_url:
         try:
@@ -71,5 +83,41 @@ def magic(image: ImageModel):
     else:
         return "Error: Payload empty", 500
 
-# if __name__ == "__main__":
-#     uvicorn.run("app:app")
+# FileStorage usage
+@app.post("/magic/base64")
+async def magic_base64(image: str = Body(...)):
+    if image:
+        image_json = json.loads(image)
+        filename = image_json['filename']
+        encoded_image = base64.b64decode(image_json['encoded_image'])
+        blackAndWhite_img = Image.open(BytesIO(encoded_image)).convert('1')
+        buffered = BytesIO()
+        blackAndWhite_img.save(buffered, format="JPEG")
+        encoded_img = base64.b64encode(buffered.getvalue()).decode('utf-8')
+        return {
+            'filename': filename,
+            'encoded_img': encoded_img
+        }
+    else:
+        return "Error: Please send an image", 500
+
+
+# FileStorage usage
+@app.post("/magic/multipart")
+async def magic_multipart(image: UploadFile = File(...)):
+    if image:
+        filename = image.filename
+        image = await image.read()
+
+        blackAndWhite_img = Image.open(BytesIO(image)).convert('1')
+        buffered = BytesIO()
+        blackAndWhite_img.save(buffered, format="JPEG")
+        print("Image converted")
+        buffered.seek(0)
+        return Response(content=buffered.getvalue(), media_type='image/jpeg', headers={'filename': filename})
+    else:
+        return "Error: Please send an image", 500
+
+
+if __name__ == "__main__":
+    uvicorn.run("app:app")

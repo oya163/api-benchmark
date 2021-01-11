@@ -1,6 +1,6 @@
 import requests
 from fastapi.testclient import TestClient
-from fastAPI.archive.fastapiServer import app
+from fastAPI.app import app
 
 client = TestClient(app)
 
