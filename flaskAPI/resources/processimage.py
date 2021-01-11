@@ -80,7 +80,6 @@ class Base64Endpoint(Resource):
             blackAndWhite_img = Image.open(BytesIO(decoded_image)).convert('1')
             buffered = BytesIO()
             blackAndWhite_img.save(buffered, format="JPEG")
-            print("Image converted")
             buffered.seek(0)
             encoded_img = base64.b64encode(buffered.getvalue()).decode('utf-8')
             return flask.jsonify({
@@ -107,7 +106,6 @@ class MultiPartEndpoint(Resource):
             blackAndWhite_img = Image.open(BytesIO(image.stream.read())).convert('1')
             buffered = BytesIO()
             blackAndWhite_img.save(buffered, format="JPEG")
-            print("Image converted")
             buffered.seek(0)
             return send_file(buffered,
                              attachment_filename=filename,

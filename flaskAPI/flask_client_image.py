@@ -4,9 +4,9 @@ from PIL import Image
 import io, json
 import os
 
-url = "http://127.0.0.1:8000/magic/imageurl"
-base64_url = "http://127.0.0.1:8000/magic/base64"
-multipart_url = "http://127.0.0.1:8000/magic/multipart"
+url = "http://127.0.0.1:5000/magic/imageurl"
+base64_url = "http://127.0.0.1:5000/magic/base64"
+multipart_url = "http://127.0.0.1:5000/magic/multipart"
 
 # Payloads for imageurl endpoints
 payload="{\n    \"image_url\": \"https://i.ibb.co/ZYW3VTp/brown-brim.png\"\n}"

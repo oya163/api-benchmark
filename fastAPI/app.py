@@ -47,7 +47,7 @@ def index():
     return {"Hello": "LibraX"}
 
 
-@app.get("/magic/imageurl")
+@app.get("/magic/imageurl/")
 def get():
     image_url = "https://i.ibb.co/ZYW3VTp/brown-brim.png"
     encoded_img = Image.open(urlopen(image_url)).convert('1')
@@ -60,7 +60,7 @@ def get():
     }
 
 # Image URL + base64 encoding
-@app.post("/magic/imageurl")
+@app.post("/magic/imageurl/")
 def magic_url(image: ImageModel):
     image_url = image.image_url
     if image_url:
@@ -84,12 +84,12 @@ def magic_url(image: ImageModel):
         return "Error: Payload empty", 500
 
 # FileStorage usage
-@app.post("/magic/base64")
+@app.post("/magic/base64/")
 async def magic_base64(image: str = Body(...)):
     if image:
         image_json = json.loads(image)
         filename = image_json['filename']
-        encoded_image = base64.b64decode(image_json['encoded_image'])
+        encoded_image = base64.b64decode(image_json['image'])
         blackAndWhite_img = Image.open(BytesIO(encoded_image)).convert('1')
         buffered = BytesIO()
         blackAndWhite_img.save(buffered, format="JPEG")
@@ -112,7 +112,7 @@ async def magic_multipart(image: UploadFile = File(...)):
         blackAndWhite_img = Image.open(BytesIO(image)).convert('1')
         buffered = BytesIO()
         blackAndWhite_img.save(buffered, format="JPEG")
-        print("Image converted")
+        # print("Image converted")
         buffered.seek(0)
         return Response(content=buffered.getvalue(), media_type='image/jpeg', headers={'filename': filename})
     else:

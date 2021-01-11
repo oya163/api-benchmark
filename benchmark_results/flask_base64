@@ -1,0 +1,62 @@
+FlaskAPI base64 encoding
+----------------------   RUN 1    -------------------------
+Running 30s test @ http://127.0.0.1:5000/magic/base64
+12 threads and 400 connections
+Thread Stats   Avg      Stdev     Max   +/- Stdev
+Latency   645.40ms   98.17ms   1.94s    94.10%
+Req/Sec    24.92     20.19   170.00     78.64%
+6223 requests in 30.06s, 246.50MB read
+Socket errors: connect 0, read 90, write 0, timeout 51
+Requests/sec:    207.01
+Transfer/sec:      8.20MB
+
+
+----------------------   RUN 2    -------------------------
+Running 30s test @ http://127.0.0.1:5000/magic/base64
+12 threads and 400 connections
+Thread Stats   Avg      Stdev     Max   +/- Stdev
+Latency   781.56ms  269.28ms   1.90s    75.91%
+Req/Sec    21.25     21.78   200.00     90.80%
+4894 requests in 30.08s, 193.86MB read
+Socket errors: connect 0, read 91, write 0, timeout 41
+Requests/sec:    162.69
+Transfer/sec:      6.44MB
+
+
+----------------------   RUN 3    -------------------------
+Running 30s test @ http://127.0.0.1:5000/magic/base64
+12 threads and 400 connections
+Thread Stats   Avg      Stdev     Max   +/- Stdev
+Latency   781.47ms  285.99ms   1.99s    83.71%
+Req/Sec    22.49     19.41   140.00     78.22%
+5022 requests in 30.07s, 198.93MB read
+Socket errors: connect 0, read 57, write 0, timeout 56
+Requests/sec:    167.02
+Transfer/sec:      6.62MB
+
+
+----------------------   RUN 4    -------------------------
+Running 30s test @ http://127.0.0.1:5000/magic/base64
+12 threads and 400 connections
+Thread Stats   Avg      Stdev     Max   +/- Stdev
+Latency   982.12ms  268.80ms   1.98s    64.85%
+Req/Sec    19.38     17.54   160.00     78.15%
+3847 requests in 30.09s, 152.38MB read
+Socket errors: connect 0, read 5, write 0, timeout 55
+Requests/sec:    127.86
+Transfer/sec:      5.06MB
+
+
+----------------------   RUN 5    -------------------------
+Running 30s test @ http://127.0.0.1:5000/magic/base64
+12 threads and 400 connections
+Thread Stats   Avg      Stdev     Max   +/- Stdev
+Latency   809.29ms  177.57ms   1.98s    86.01%
+Req/Sec    21.66     19.80   170.00     84.85%
+4869 requests in 30.10s, 192.87MB read
+Socket errors: connect 0, read 42, write 0, timeout 31
+Requests/sec:    161.77
+Transfer/sec:      6.41MB
+
+
+All done
