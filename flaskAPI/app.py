@@ -9,7 +9,6 @@ import logging
 
 
 app = Flask(__name__)
-# app.config["DEBUG"] = True
 api = Api(app)
 
 api.add_resource(ImageUrlEndpoint, '/magic/imageurl')
@@ -17,8 +16,8 @@ api.add_resource(Base64Endpoint, '/magic/base64')
 api.add_resource(MultiPartEndpoint, '/magic/multipart')
 
 ### Uncomment to run wrk benchmark
-# log = logging.getLogger('werkzeug')
-# log.setLevel(logging.ERROR)
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 # Just to confirm visually
 @app.route('/', methods=['GET'])

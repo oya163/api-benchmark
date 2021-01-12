@@ -1,3 +1,8 @@
+"""
+    Description:
+    Unittest for Flask REST API endpoints
+"""
+
 import os, requests, base64, json
 
 url = "http://127.0.0.1:5000/magic/imageurl"

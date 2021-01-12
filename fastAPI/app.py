@@ -1,4 +1,13 @@
-from io import BytesIO, StringIO
+"""
+    Description: FastAPI framework
+    These APIs consumes image_url or image file
+    and returns its corresponding black/white image
+
+    Author: Oyesh Mann Singh
+    Date: 01/11/2021
+"""
+
+from io import BytesIO
 import base64
 from urllib.request import urlopen
 from urllib.error import HTTPError
@@ -46,8 +55,9 @@ async def unicorn_exception_handler(request: Request, exc: OtherException):
 def index():
     return {"Hello": "LibraX"}
 
-
-@app.get("/magic/imageurl/")
+# GET method
+# Returns black and white of fixed image
+@app.get("/magic/imageurl")
 def get():
     image_url = "https://i.ibb.co/ZYW3VTp/brown-brim.png"
     encoded_img = Image.open(urlopen(image_url)).convert('1')
@@ -59,8 +69,10 @@ def get():
         'encoded_img': encoded_img
     }
 
-# Image URL + base64 encoding
-@app.post("/magic/imageurl/")
+
+# Retrieves image from given image_url
+# Return its corresponding b/w image
+@app.post("/magic/imageurl")
 def magic_url(image: ImageModel):
     image_url = image.image_url
     if image_url:
@@ -83,8 +95,10 @@ def magic_url(image: ImageModel):
     else:
         return "Error: Payload empty", 500
 
-# FileStorage usage
-@app.post("/magic/base64/")
+
+# Consumes base64 encoded image
+# Returns black/white base64 encoded image
+@app.post("/magic/base64")
 async def magic_base64(image: str = Body(...)):
     if image:
         image_json = json.loads(image)
@@ -102,17 +116,17 @@ async def magic_base64(image: str = Body(...)):
         return "Error: Please send an image", 500
 
 
-# FileStorage usage
+# Consumes image file as multipart/form-data
+# Returns black/white image
 @app.post("/magic/multipart")
 async def magic_multipart(image: UploadFile = File(...)):
     if image:
         filename = image.filename
         image = await image.read()
-
+        # blackAndWhite_img = Image.open(image).convert('1')
         blackAndWhite_img = Image.open(BytesIO(image)).convert('1')
         buffered = BytesIO()
         blackAndWhite_img.save(buffered, format="JPEG")
-        # print("Image converted")
         buffered.seek(0)
         return Response(content=buffered.getvalue(), media_type='image/jpeg', headers={'filename': filename})
     else:

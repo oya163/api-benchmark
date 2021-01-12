@@ -48,7 +48,7 @@ class ImageUrlUser(HttpUser):
 class Base64User(HttpUser):
     @task
     def benchmark_base64(self):
-        self.client.post(url=base64_url, data=base64_files, headers=headers, stream=True)
+        self.client.post(url=base64_url, json=base64_files, headers=headers)
 
 
 class MultipartUser(HttpUser):

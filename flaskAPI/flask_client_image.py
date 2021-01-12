@@ -44,7 +44,6 @@ with requests.request("POST", url=url, data=payload, headers=headers, stream=Tru
 
         # To handle the Response object sent using send_file
         img = Image.open(io.BytesIO(r.content))
-        # img.save('bw.jpeg')
         print("Image received from /magic/imageurl")
     else:
         print(r)

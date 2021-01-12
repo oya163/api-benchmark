@@ -8,3 +8,5 @@ flaskAPI/README.md
 __pycache__/
 *.py[cod]
 *.DS_Store
+*.ods
+*/reports/

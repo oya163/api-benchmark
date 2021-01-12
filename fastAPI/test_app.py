@@ -1,3 +1,8 @@
+"""
+    Description:
+    Unittest for FastAPI endpoints
+"""
+
 import requests
 from fastapi.testclient import TestClient
 from fastAPI.app import app
@@ -25,7 +30,7 @@ image_file = open(file_path, "rb")
 encoded_string = base64.b64encode(image_file.read()).decode(ENCODING)
 base64_files = json.dumps({
     'filename': filename,
-    'encoded_image': encoded_string
+    'image': encoded_string
 })
 
 # Take the pointer to the beginning
