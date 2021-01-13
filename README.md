@@ -1,11 +1,11 @@
 # API Benchmark
 
-Benchmarking three Python API frameworks based on simple image processing task
+Benchmarking three different Python API frameworks based on simple image processing task. APIs consumes either image file in the form of base64 encoding or multipart-data or just a image_url, and returns the corresponding pure black and white image to the client.
 
 ## Frameworks:
-- [x] FlaskAPI
-- [x] FastAPI
-- [x] aioHTTP
+- [x] [FlaskAPI](https://flask-restful.readthedocs.io/en/latest/)
+- [x] [FastAPI](https://fastapi.tiangolo.com/)
+- [x] [aioHTTP](https://docs.aiohttp.org/en/stable/)
 
 
 ## How to run
@@ -51,9 +51,9 @@ Benchmarking three Python API frameworks based on simple image processing task
 1. [locust](https://locust.io/)
    
 
-    locust -f locustfile.py --headless --host http://127.0.0.1:5000 -u 2000 -r 50 -t 30s --csv reports/imageurl_${i} ImageUrlUser
-    locust -f locustfile.py --headless --host http://127.0.0.1:5000 -u 2000 -r 50 -t 30s --csv reports/base64_${i} Base64User
-    locust -f locustfile.py --headless --host http://127.0.0.1:5000 -u 2000 -r 50 -t 30s --csv reports/multipart_${i} MultipartUser
+        locust -f locustfile.py --headless --host http://127.0.0.1:5000 -u 2000 -r 50 -t 30s --csv reports/imageurl_${i} ImageUrlUser
+        locust -f locustfile.py --headless --host http://127.0.0.1:5000 -u 2000 -r 50 -t 30s --csv reports/base64_${i} Base64User
+        locust -f locustfile.py --headless --host http://127.0.0.1:5000 -u 2000 -r 50 -t 30s --csv reports/multipart_${i} MultipartUser
 
 or, just run `./benchmark.sh` for 5-trial run
 
@@ -64,25 +64,24 @@ or, just run `./benchmark.sh` for 5-trial run
 - Flask API
 
 
-    wrk http://127.0.0.1:5000/magic/imageurl -t12 -c400 -d30s -s lua_scripts/post.lua
+        wrk http://127.0.0.1:5000/magic/imageurl -t12 -c400 -d30s -s lua_scripts/post.lua
 
 - Fast API
 
 
-    wrk http://127.0.0.1:8000/magic/imageurl -t12 -c400 -d30s -s lua_scripts/post.lua
+        wrk http://127.0.0.1:8000/magic/imageurl -t12 -c400 -d30s -s lua_scripts/post.lua
 
 - aioHTTP
 
 
-    wrk http://0.0.0.0:8080/magic/imageurl -t12 -c400 -d30s -s lua_scripts/post_aiohttp.lua
+        wrk http://0.0.0.0:8080/magic/imageurl -t12 -c400 -d30s -s lua_scripts/post_aiohttp.lua
 
 ## Experiments
 
-all APIs were tested for performance using wrk HTTP benchmarking tool. 
-wrk tool is based on C and requires in-depth knowledge of Lua to pass the base64 encoded images as multipart/data. 
-Hence, I switched to locust, which is a python based HTTP benchmarking tool. It made the task very much easier since it utilizes the same request library like the client. However, it should be noted that wrk is extremely fast compared to locust.
+Initially, aLL API endpoints were tested for performance using **wrk** HTTP benchmarking tool. 
+**wrk** tool is based on C and requires in-depth knowledge of Lua to pass the base64 encoded images as multipart/data. I faced great difficulty in passing base64 encoding image or multipart/form-data as payload through **wrk**. Hence, I switched to **locust**, which is a python based HTTP benchmarking tool. It made the task very much easier since it utilizes the `requests` library. However, it should be noted that **wrk** is extremely fast compared to locust.
 
-Parameters for load testing:
+Parameters for load testing on *locust**:
 
 - Number of users = 2000
 
