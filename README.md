@@ -51,9 +51,9 @@ Benchmarking three different Python API frameworks based on simple image process
 1. [locust](https://locust.io/)
    
 
-        locust -f locustfile.py --headless --host http://127.0.0.1:5000 -u 2000 -r 50 -t 30s --csv reports/imageurl_${i} ImageUrlUser
-        locust -f locustfile.py --headless --host http://127.0.0.1:5000 -u 2000 -r 50 -t 30s --csv reports/base64_${i} Base64User
-        locust -f locustfile.py --headless --host http://127.0.0.1:5000 -u 2000 -r 50 -t 30s --csv reports/multipart_${i} MultipartUser
+        locust -f locustfile.py --headless --host http://127.0.0.1:5000 -u 2000 -r 50 -t 30s --csv reports/imageurl ImageUrlUser
+        locust -f locustfile.py --headless --host http://127.0.0.1:5000 -u 2000 -r 50 -t 30s --csv reports/base64 Base64User
+        locust -f locustfile.py --headless --host http://127.0.0.1:5000 -u 2000 -r 50 -t 30s --csv reports/multipart MultipartUser
 
 or, just run `./benchmark.sh` for 5-trial run
 
