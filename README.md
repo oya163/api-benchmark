@@ -22,6 +22,10 @@ Benchmarking three different Python API frameworks based on simple image process
     python flask_client.py
     pytest
 
+### Jinja
+Once you run the server, please goto [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+in order to check the results visually. This API server retrieves random dog images
+using [Dog API](https://dog.ceo/dog-api/) and converts it into pure black and white.
 
 ### Fast API
 
