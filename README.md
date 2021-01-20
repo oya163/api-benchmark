@@ -1,6 +1,6 @@
 # API Benchmark
 
-Benchmarking three different Python API frameworks based on simple image processing task. APIs consumes either image file in the form of base64 encoding or multipart-data or just a image_url, and returns the corresponding pure black and white image to the client.
+This project is about benchmarking three different Python API frameworks based on simple image processing task. The basic concept is the APIs consumes either image file in the form of base64 encoding or multipart-data or just a image url, and returns the corresponding pure black and white image to the client.
 
 ## Frameworks:
 - [x] [FlaskAPI](https://flask-restful.readthedocs.io/en/latest/)
@@ -83,7 +83,7 @@ or, just run `./benchmark.sh` for 5-trial run
 ## Experiments
 
 Initially, aLL API endpoints were tested for performance using **wrk** HTTP benchmarking tool. 
-**wrk** tool is based on C and requires in-depth knowledge of Lua to pass the base64 encoded images as multipart/data. I faced great difficulty in passing base64 encoding image or multipart/form-data as payload through **wrk**. Hence, I switched to **locust**, which is a python based HTTP benchmarking tool. It made the task very much easier since it utilizes the `requests` library. However, it should be noted that **wrk** is extremely fast compared to locust.
+**wrk** tool is based on C and requires in-depth knowledge of Lua to pass the base64 encoded images as multipart/data. I faced great difficulty in passing base64 encoding image or multipart/form-data as a payload through **wrk**. Hence, I switched to **locust**, which is a python based HTTP benchmarking tool. It made the task very much easier since it utilizes the `requests` library. However, it should be noted that **wrk** is extremely fast compared to locust.
 
 Parameters for load testing on *locust**:
 
